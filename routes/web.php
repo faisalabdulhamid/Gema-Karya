@@ -19,3 +19,7 @@ Route::get('/template', function(){
   return view('content.index');
   // return 'Hello';
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
