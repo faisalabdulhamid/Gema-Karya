@@ -19,3 +19,6 @@ Route::get('/template', function(){
   return view('content.index');
   // return 'Hello';
 });
+
+
+Route::resource('proyek', 'ProyekController');

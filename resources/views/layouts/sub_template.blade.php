@@ -18,6 +18,12 @@
       <i class="home icon"></i>
       Home
     </a>
+    <a class="item" href="{{ route('proyek.index') }}">
+      <i class="browser layout icon"></i>
+      Proyek
+    </a>
+
+    </a>
     <a class="item">
       <i class="block layout icon"></i>
       Topics
