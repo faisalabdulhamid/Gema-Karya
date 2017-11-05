@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.template');
+    return view('auth.login');
+});
+
+Route::get('/template', function(){
+  return view('content.index');
+  // return 'Hello';
 });
