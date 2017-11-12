@@ -1,12 +1,12 @@
 <?php
-use App\Models\Users;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
 Route::get('/user', function(){
-  $user = Users::find(1);//Auth::user();
+  $user = Auth::user();
   return response()->json($user, 200);
 });//->middleware('auth');
 
