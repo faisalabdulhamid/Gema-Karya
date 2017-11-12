@@ -5,37 +5,43 @@
   <div class="ui inverted menu">
     <div class="ui container">
       <a href="#" class="header item">
-        {{ config('app.nama_perusahaan')}}
+        {{ config('application.nama_perusahaan')}}
       </a>
-      <a href="#" class="item">Home</a>
     </div>
   </div>
   {{-- End NAVIGATION --}}
 
-  {{-- SIDEBAR LEFT --}}
-  <div class="ui left demo vertical inverted labeled icon sidebar menu visible">
-    <a class="item">
-      <i class="home icon"></i>
-      Home
-    </a>
-    <a class="item" href="{{ route('proyek.index') }}">
-      <i class="browser layout icon"></i>
-      Proyek
-    </a>
+  <div>
+    {{-- SIDEBAR LEFT --}}
+    <div class="ui left demo vertical inverted labeled icon sidebar menu visible">
+      <a class="item">
+        <i class="home icon"></i>
+        Home
+      </a>
+      <a class="item" href="{{ route('proyek.index') }}">
+        <i class="browser layout icon"></i>
+        Proyek
+      </a>
+      </a>
+      <a class="item" href="{{ route('resiko.index') }}">
+        <i class="block layout icon"></i>
+        Resiko
+      </a>
+      <a class="item" href="{{ route('bahan-baku.index') }}">
+        <i class="block layout icon"></i>
+        Bahan
+      </a>
+      <a class="item" href="{{ route('pekerjaan.index') }}">
+        <i class="block layout icon"></i>
+        Pekerjaan
+      </a>
+    </div>
+    {{-- END SIDEBAR LEFT --}}
 
-    </a>
-    <a class="item">
-      <i class="block layout icon"></i>
-      Topics
-    </a>
-    <a class="item">
-      <i class="smile icon"></i>
-      Friends
-    </a>
+    @yield('sub_content')
+
+    @yield('modal')
   </div>
-  {{-- END SIDEBAR LEFT --}}
-
-  @yield('sub_content')
 
   {{-- FOOTER --}}
   <div class="ui inverted vertical footer segment">
