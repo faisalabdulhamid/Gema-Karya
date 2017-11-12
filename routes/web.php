@@ -19,3 +19,7 @@ Route::resource('bahan-baku', 'BahanBakuController');
 Route::prefix('detail')->name('detail')->group(function(){
     Route::get('/{param}', 'DetailProyekController@index')->name('.index');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
