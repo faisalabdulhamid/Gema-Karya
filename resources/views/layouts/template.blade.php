@@ -9,6 +9,7 @@
   <!-- Site Properties -->
   <title>@yield('title')</title>
   <link rel="stylesheet" type="text/css" href="{{url('dist/semantic.css')}}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- <link rel="stylesheet" type="text/css" href="{{url('dist/components/reset.min.css')}}">
   <link rel="stylesheet" type="text/css" href="{{url('dist/components/site.min.css')}}">
 
