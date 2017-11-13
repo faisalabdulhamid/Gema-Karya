@@ -6,11 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Utilities\InterfaceModel;
 use App\Models\Utilities\ModelHepler;
+use Illuminate\Database\Eloquent\Builder;
 
 class Users extends Authenticatable implements InterfaceModel
 {
     use Notifiable, ModelHepler;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,4 +29,14 @@ class Users extends Authenticatable implements InterfaceModel
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('user', function (Builder $builder) {
+            $builder->where('status', '=', 'direktur')
+              ->orWhere('status', '=', 'teknisi');
+        });
+    }
 }

@@ -15,6 +15,7 @@ Route::resource('proyek', 'ProyekController');
 Route::resource('resiko', 'ResikoController');
 Route::resource('pekerjaan', 'PekerjaanController');
 Route::resource('bahan-baku', 'BahanBakuController');
+Route::resource('pegawai', 'PegawaiController');
 
 Route::prefix('detail')->name('detail')->group(function(){
     Route::get('/{param}', 'DetailProyekController@index')->name('.index');
