@@ -1,21 +1,25 @@
 <template>
   <div>
-    <a class="item">
+    <router-link :to="{ name: 'index'}" class="item">
+      <i class="block layout icon"></i>
+      Proyek
+    </router-link>
+    <router-link :to="{ name: 'pekerjaan-index'}" class="item">
       <i class="block layout icon"></i>
       Pekerjaan
-    </a>
-    <a class="item">
+    </router-link>
+    <router-link :to="{ name: 'resiko-index'}" class="item">
       <i class="block layout icon"></i>
       Resiko
-    </a>
-    <a class="item">
+    </router-link>
+    <router-link :to="{ name: 'bahan-index'}" class="item">
       <i class="block layout icon"></i>
       Bahan
-    </a>
-    <a class="item">
+    </router-link>
+    <router-link :to="{ name: 'pegawai-index'}" class="item">
       <i class="block layout icon"></i>
-      Pekerja
-    </a>
+      Pegawai
+    </router-link>
   </div>
 </template>
 
