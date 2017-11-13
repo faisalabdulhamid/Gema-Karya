@@ -8,13 +8,8 @@
     </template>
 
     <div class="ui right demo vertical inverted labeled icon sidebar menu visible">
-      <a class="item" href="">
-        <i class="browser layout icon"></i>
-        EVM
-      </a>
       <sidebar-direktur v-show="user.status == 'direktur'"></sidebar-direktur>
       <sidebar-teknis v-show="user.status == 'teknis'"></sidebar-teknis>
-      {{ user.status }}
     </div>
 
   </div>

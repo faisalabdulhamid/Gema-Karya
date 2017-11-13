@@ -1,19 +1,31 @@
 <template>
   <div>
-    <a class="item">
+    <router-link :to="{ name: 'index'}" class="item">
       <i class="block layout icon"></i>
-      DEIR
-    </a>
-    <a class="item">
+      Proyek
+    </router-link>
+    <router-link :to="{ name: 'pekerjaan-index'}" class="item">
+      <i class="block layout icon"></i>
+      Pekerjaan
+    </router-link>
+    <router-link :to="{ name: 'resiko-index'}" class="item">
       <i class="block layout icon"></i>
       Resiko
-    </a>
+    </router-link>
+    <router-link :to="{ name: 'bahan-index'}" class="item">
+      <i class="block layout icon"></i>
+      Bahan
+    </router-link>
+    <router-link :to="{ name: 'pegawai-index'}" class="item">
+      <i class="block layout icon"></i>
+      Pegawai
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'sidebarAdmin'
+  name: 'sidebarDirektur'
 }
 </script>
 

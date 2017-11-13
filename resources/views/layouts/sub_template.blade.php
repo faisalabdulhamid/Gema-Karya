@@ -22,7 +22,6 @@
         <i class="browser layout icon"></i>
         Proyek
       </a>
-      </a>
       <a class="item" href="{{ route('resiko.index') }}">
         <i class="block layout icon"></i>
         Resiko
@@ -38,7 +37,6 @@
       <a class="item" href="{{ route('pegawai.index') }}">
         <i class="block layout icon"></i>
         Pegawai
-      </a>
       </a>
       <a class="item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         <i class="block layout icon"></i>
