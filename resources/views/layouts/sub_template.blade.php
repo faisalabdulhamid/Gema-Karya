@@ -14,7 +14,7 @@
   <div>
     {{-- SIDEBAR LEFT --}}
     <div class="ui left demo vertical inverted labeled icon sidebar menu visible">
-      <a class="item">
+      <a class="item" href="{{ route('home') }}">
         <i class="home icon"></i>
         Home
       </a>
