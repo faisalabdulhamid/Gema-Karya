@@ -13,11 +13,9 @@
           <tr>
             <th class="nomor">No</th>
             <th>Proyek</th>
-            <th>Nilai Kontrak</th>
             <th>Tanggal Kontrak</th>
             <th>Tanggal Mulai</th>
             <th>Tanggal Selesai</th>
-            <th>Deskripsi</th>
             <th class="actions">#</th>
           </tr>
         </thead>
@@ -26,11 +24,9 @@
           <tr v-for="(item, index) in proyek">
             <td>{{ index+1 }}</td>
             <td>{{ item.nama }}</td>
-            <td>{{ item.nilai_kontrak }}</td>
             <td>{{ item.tanggal_kontrak }}</td>
             <td>{{ item.tanggal_mulai }}</td>
             <td>{{ item.tanggal_selesai }}</td>
-            <td>{{ item.deskripsi }}</td>
             <td>
               <div class="ui small icon buttons">
                 <a class="ui yellow button icon" :href="item.url_show">

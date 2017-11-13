@@ -6,27 +6,34 @@
     </h4>
 
     <div class="ui tall stacked segment">
-      <div class="ui secondary pointing menu">
-        <a class="item active" data-tab="tab-evm">
-          EVM
-        </a>
-        <a class="item" data-tab="tab-cpm">
-          CPM
-        </a>
-        <a class="item" data-tab="tab-resiko">
-          Resiko
-        </a>
-      </div>
-      <div class="ui segment tab active" data-tab="tab-evm">
-        <p>
-          EVM
-        </p>
-      </div>
-      <div class="ui segment tab" data-tab="tab-cpm">
-        <p>
-          CPM
-        </p>
-      </div>
+      <table class="ui table">
+        <tbody>
+          <tr>
+            <td>Nama Proyek</td>
+            <td>{{ proyek.nama  }}</td>
+          </tr>
+          <tr>
+            <td>Nilai Kontrak</td>
+            <td>{{ proyek.nilai_kontrak }}</td>
+          </tr>
+          <tr>
+            <td>Tanggal Kontrak</td>
+            <td>{{ proyek.tanggal_kontrak }}</td>
+          </tr>
+          <tr>
+            <td>Tanggal Mulai</td>
+            <td>{{ proyek.tanggal_mulai }}</td>
+          </tr>
+          <tr>
+            <td>Tanggal Selesai</td>
+            <td>{{ proyek.tanggal_selesai }}</td>
+          </tr>
+          <tr>
+            <td>Deskripsi</td>
+            <td>{{ proyek.deskripsi }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
