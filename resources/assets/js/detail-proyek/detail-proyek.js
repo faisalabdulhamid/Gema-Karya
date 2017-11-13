@@ -27,6 +27,8 @@ const app = new Vue({
   router,
   store,
   created(){
-    localStorage.setItem('user', '{"status": "teknis"}')
+    axios.get('/user').then(res => {
+        localStorage.setItem('user', JSON.stringify(res.data))
+    });
   }
 })

@@ -22,16 +22,5 @@ const app = new Vue({
     template: '<app></app>',
     components: { App },
     router,
-    store,
-    created(){
-      var local = {'name': "Faisal Abdul Hamid", 'status': "admin"};
-      localStorage.setItem('user', JSON.stringify(local))
-    },
-    computed:{
-      isUser(){
-        let user = localStorage.getItem('user')
-        let userObj = JSON.parse(user)
-        return userObj.status;
-      }
-    }
+    store
 });
