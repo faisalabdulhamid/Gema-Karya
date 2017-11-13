@@ -35,6 +35,10 @@
         <i class="block layout icon"></i>
         Pekerjaan
       </a>
+      <a class="item" href="{{ route('pegawai.index') }}">
+        <i class="block layout icon"></i>
+        Pegawai
+      </a>
     </div>
     {{-- END SIDEBAR LEFT --}}
 
