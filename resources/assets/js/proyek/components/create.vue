@@ -64,9 +64,6 @@ export default {
           )
           that.$router.push({ name: 'index'})
         })
-        .catch(err => {
-          console.log(err)
-        })
     }
   }
 }

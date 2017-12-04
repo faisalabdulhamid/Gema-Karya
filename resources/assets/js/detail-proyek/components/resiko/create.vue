@@ -87,23 +87,17 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'resiko', res.data)
         })
-        .catch(error => {
-          console.log(error)
-        })
     },
     simpan(){
       var that = this
       this.$http.post('/resiko', this.data)
         .then(res => {
-          swal(
+          that.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'resiko-index'})
-        })
-        .catch(err => {
-          console.log(err);
         })
     }
   },

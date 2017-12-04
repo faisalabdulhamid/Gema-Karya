@@ -16,5 +16,9 @@ export default new VueRouter({
 
         {path: '/pegawai', component: require('./components/pegawai/index.vue'), name: 'pegawai-index'},
         {path: '/pegawai/create', component: require('./components/pegawai/create.vue'), name: 'pegawai-create'},
+
+        {path: '/cpm', component: require('./components/cpm/index.vue'), name: 'cpm-index'},
+
+        {path: '/evm', component: require('./components/evm/index.vue'), name: 'evm-index'},
     ]
 });

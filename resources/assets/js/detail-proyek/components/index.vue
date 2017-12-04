@@ -55,8 +55,6 @@ export default {
       var that = this
       this.$http.get('').then(res => {
         Vue.set(that.$data, 'proyek', res.data)
-      }).catch(err => {
-        console.log(err.response);
       })
     }
   }),

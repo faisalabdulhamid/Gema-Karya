@@ -1,28 +1,7 @@
 <template lang="html">
   <div class="ui container">
     <div class="ui tall stacked segment">
-      <router-link :to="{ name: 'pegawai-create'}" class="ui blue button icon">
-        <i class="plus icon"></i>
-      </router-link>
-      <hr/>
-      <table class="ui table">
-        <thead>
-          <tr>
-            <th class="nomor">No</th>
-            <th>Pegawai</th>
-            <th class="action">#</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in pegawai">
-            <td>{{ index+1 }}</td>
-            <td>{{ item.pegawai }}</td>
-            <td>
-              <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      DIAGRAM
     </div>
   </div>
 </template>

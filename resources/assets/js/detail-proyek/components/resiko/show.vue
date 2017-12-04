@@ -71,9 +71,6 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'data', res.data)
         })
-        .catch(err => {
-          console.log(err);
-        })
     }
   },
   created(){

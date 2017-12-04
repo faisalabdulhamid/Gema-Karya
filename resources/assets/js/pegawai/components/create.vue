@@ -9,7 +9,7 @@
       <form class="ui form" v-on:submit.prevent="simpan">
         <div class="field">
           <label>Nama Pegawai</label>
-          <input v-model="data.name"/>
+          <input v-model="data.nama"/>
         </div>
         <button class="ui green button">Simpan</button>
       </form>
@@ -23,7 +23,7 @@ export default {
   data(){
     return {
       data:{
-        name: '',
+        nama: '',
       }
     }
   },
@@ -32,15 +32,12 @@ export default {
       var that = this
       this.$http.post('/', this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'index'})
-        })
-        .catch(err => {
-          console.log(err)
         })
     }
   }

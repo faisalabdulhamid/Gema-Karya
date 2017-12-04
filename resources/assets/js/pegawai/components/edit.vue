@@ -9,7 +9,7 @@
       <form class="ui form" v-on:submit.prevent="simpan">
         <div class="field">
           <label>Nama Pegawai</label>
-          <input v-model="data.name"/>
+          <input v-model="data.nama"/>
         </div>
         <button class="ui green button">Simpan</button>
       </form>
@@ -23,7 +23,7 @@ export default {
   data(){
     return {
       data:{
-        name: '',
+        nama: '',
       }
     }
   },
@@ -35,15 +35,12 @@ export default {
       var that = this
       this.$http.put('/'+id[2], this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Updated!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'index'})
-        })
-        .catch(err => {
-          console.log(err)
         })
     },
     getData(){
@@ -53,8 +50,6 @@ export default {
       var that = this
       this.$http.get('/'+id[2]).then(res => {
         Vue.set(that.$data, 'data', res.data)
-      }).catch(err => {
-        console.log(err);
       })
     }
   },

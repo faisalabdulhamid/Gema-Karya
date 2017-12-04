@@ -52,30 +52,26 @@ export default {
       var that = this
       this.$http.get('').then(res => {
         Vue.set(that.$data, 'resiko', res.data)
-      }).catch(err => {
-        console.log(err)
       })
     },
     hapus(id){
-      swal({
+      this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
       })
       .then(willDelete => {
         if (willDelete) {
           var that = this
           that.$http.delete('/'+id).then(res => {
-            swal(
+            that.$swal(
               "Deleted!",
               res.data.message,
               "success"
             ).then(() => {
-              that.$router.go({name: 'index'})
+              that.getResiko()
             })
             setTimeout(function(){
-              that.$router.go({name: 'index'})
+              that.getResiko()
             }, 3000)
           }).catch(err => {
             console.log(err)

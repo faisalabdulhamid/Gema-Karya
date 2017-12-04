@@ -43,15 +43,12 @@ export default {
       var that = this
       this.$http.put('/'+this.data.id, this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Updated!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'index'})
-        })
-        .catch(err => {
-          console.log(err)
         })
     },
     getData(){
@@ -62,9 +59,6 @@ export default {
       this.$http.get('/'+id[2])
         .then(res => {
           Vue.set(that.$data, 'data', res.data)
-        })
-        .catch(err => {
-          console.log(err)
         })
     }
   },

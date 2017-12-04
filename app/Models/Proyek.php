@@ -11,6 +11,6 @@ class Proyek extends Model
 
     public function getUrlShowAttribute()
     {
-      return route('detail.index', ['param'=>$this->id]);
+      return route('detail', ['param'=>$this->id]);
     }
 }

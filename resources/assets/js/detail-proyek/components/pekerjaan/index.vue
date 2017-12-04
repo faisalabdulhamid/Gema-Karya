@@ -44,12 +44,9 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'pekerjaan', res.data)
         })
-        .catch(error =>{
-          console.log(error)
-        })
     },
     hapus(id){
-      swal({
+      this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
         icon: "warning",
@@ -59,18 +56,16 @@ export default {
         if (willDelete) {
           var that = this
           that.$http.delete('/pekerjaan/'+id).then(res => {
-            swal(
+            that.$swal(
               "Deleted!",
               res.data.message,
               "success"
             ).then(() => {
-              that.$router.go({name: 'index'})
+              that.getData()
             })
             setTimeout(function(){
-              that.$router.go({name: 'index'})
+              that.getData()
             }, 3000)
-          }).catch(err => {
-            console.log(err)
           })
 
         }

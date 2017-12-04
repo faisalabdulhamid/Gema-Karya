@@ -7,10 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Utilities\InterfaceModel;
 use App\Models\Utilities\ModelHepler;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Passport\HasApiTokens;
 
 class Users extends Authenticatable implements InterfaceModel
 {
-    use Notifiable, ModelHepler;
+    use HasApiTokens, Notifiable, ModelHepler;
 
     /**
      * The attributes that are mass assignable.

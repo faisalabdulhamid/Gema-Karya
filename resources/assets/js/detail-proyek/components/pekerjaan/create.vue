@@ -63,23 +63,17 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'pekerjaan', res.data)
         })
-        .catch(error => {
-          console.log(error)
-        })
     },
     simpan(){
       var that = this
       this.$http.post('/pekerjaan', this.data)
         .then(res => {
-          swal(
+          that.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'pekerjaan-index'})
-        })
-        .catch(err => {
-          console.log(err);
         })
     }
   },

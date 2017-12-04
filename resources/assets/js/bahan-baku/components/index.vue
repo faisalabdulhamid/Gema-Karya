@@ -50,7 +50,7 @@ export default {
     }
   },
   methods:{
-    getResiko(){
+    getBahan(){
       var that = this
       this.$http.get('').then(res => {
         Vue.set(that.$data, 'bahan', res.data)
@@ -59,7 +59,7 @@ export default {
       })
     },
     hapus(id){
-      swal({
+      this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
         icon: "warning",
@@ -69,15 +69,15 @@ export default {
         if (willDelete) {
           var that = this
           that.$http.delete('/'+id).then(res => {
-            swal(
+            that.$swal(
               "Deleted!",
               res.data.message,
               "success"
             ).then(() => {
-              that.$router.go({name: 'index'})
+              that.getBahan()
             })
             setTimeout(function(){
-              that.$router.go({name: 'index'})
+              that.getBahan()
             }, 3000)
           }).catch(err => {
             console.log(err)
@@ -87,7 +87,7 @@ export default {
     }
   },
   created(){
-    this.getResiko()
+    this.getBahan()
   }
 }
 </script>

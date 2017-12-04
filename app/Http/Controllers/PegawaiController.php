@@ -39,11 +39,11 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
       $this->validate($request, [
-        'name' => 'required'
+        'nama' => 'required'
       ]);
 
       $pegawai = new Pegawai();
-      $pegawai->name = $request->name;
+      $pegawai->nama = $request->nama;
       $pegawai->status = 'pegawai';
       $pegawai->save();
 
@@ -86,11 +86,11 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
       $this->validate($request, [
-        'name' => 'required'
+        'nama' => 'required'
       ]);
 
       $pegawai = Pegawai::find($id);
-      $pegawai->name = $request->name;
+      $pegawai->nama = $request->nama;
       $pegawai->save();
 
       return response()->json([

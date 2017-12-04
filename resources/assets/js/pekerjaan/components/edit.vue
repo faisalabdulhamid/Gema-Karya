@@ -35,7 +35,7 @@ export default {
       var that = this
       this.$http.put('/'+id[2], this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Updated!',
             res.data.message,
             'success'

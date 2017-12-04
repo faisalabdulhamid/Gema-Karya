@@ -20,7 +20,7 @@
         <tbody>
           <tr v-for="(item, index) in pegawai">
             <td>{{ index+1 }}</td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.nama }}</td>
             <td>
               <div class="ui small icon buttons">
                 <router-link :to="{ name: 'edit', params: {'id':item.id} }" class="ui blue button icon">
@@ -48,7 +48,7 @@ export default {
     }
   },
   methods:{
-    getProyek(){
+    getData(){
       var that = this
       this.$http.get('').then(res => {
         Vue.set(that.$data, 'pegawai', res.data)
@@ -57,7 +57,7 @@ export default {
       })
     },
     hapus(id){
-      swal({
+      this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
         icon: "warning",
@@ -67,25 +67,23 @@ export default {
         if (willDelete) {
           var that = this
           that.$http.delete('/'+id).then(res => {
-            swal(
+            this.$swal(
               "Deleted!",
               res.data.message,
               "success"
             ).then(() => {
-              that.$router.go({name: 'index'})
+              that.getData()
             })
             setTimeout(function(){
-              that.$router.go({name: 'index'})
+              that.getData()
             }, 3000)
-          }).catch(err => {
-            console.log(err)
           })
         }
       });
     }
   },
   created(){
-    this.getProyek()
+    this.getData()
   }
 }
 </script>

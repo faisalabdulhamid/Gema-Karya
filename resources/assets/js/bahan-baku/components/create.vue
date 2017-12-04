@@ -42,15 +42,12 @@ export default {
       var that = this
       this.$http.post('', this.data)
         .then(res => {
-          swal(
+          that.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'index'})
-        })
-        .catch(err => {
-          console.log(err)
         })
     }
   }

@@ -40,23 +40,17 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'bahan', res.data)
         })
-        .catch(error => {
-          console.log(error)
-        })
     },
     simpan(){
       var that = this
       this.$http.post('/bahan', this.data)
         .then(res => {
-          swal(
+          that.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'bahan-index'})
-        })
-        .catch(err => {
-          console.log(err);
         })
     }
   },

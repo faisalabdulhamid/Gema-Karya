@@ -196,7 +196,7 @@ class DetailProyekController extends Controller
       foreach ($pegawai as $value) {
         $row = [];
         $row['id'] = $value->id;
-        $row['pegawai'] = $value->pegawai->name;
+        $row['pegawai'] = $value->pegawai->nama;
         $data[] = $row;
       }
       return response()->json($data, 200);

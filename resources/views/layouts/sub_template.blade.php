@@ -18,27 +18,27 @@
         <i class="home icon"></i>
         Home
       </a>
-      <a class="item" href="{{ route('proyek.index') }}">
+      <a class="item" href="{{ route('proyek') }}">
         <i class="browser layout icon"></i>
         Proyek
       </a>
-      <a class="item" href="{{ route('resiko.index') }}">
+      <a class="item" href="{{ route('resiko') }}">
         <i class="block layout icon"></i>
         Resiko
       </a>
-      <a class="item" href="{{ route('bahan-baku.index') }}">
+      <a class="item" href="{{ route('bahan-baku') }}">
         <i class="block layout icon"></i>
         Bahan
       </a>
-      <a class="item" href="{{ route('pekerjaan.index') }}">
+      <a class="item" href="{{ route('pekerjaan') }}">
         <i class="block layout icon"></i>
         Pekerjaan
       </a>
-      <a class="item" href="{{ route('pegawai.index') }}">
+      <a class="item" href="{{ route('pegawai') }}">
         <i class="block layout icon"></i>
         Pegawai
       </a>
-      <a class="item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+      <a class="item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();localStorage.removeItem('oauth')">
         <i class="block layout icon"></i>
         Logout
       </a>

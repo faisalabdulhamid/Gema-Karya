@@ -32,7 +32,7 @@ export default {
       var that = this
       this.$http.post('', this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Created!',
             res.data.message,
             'success'

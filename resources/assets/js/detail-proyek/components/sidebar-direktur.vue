@@ -4,13 +4,14 @@
       <i class="block layout icon"></i>
       Proyek
     </router-link>
-    <router-link :to="{ name: 'pekerjaan-index'}" class="item">
-      <i class="block layout icon"></i>
-      Pekerjaan
-    </router-link>
     <router-link :to="{ name: 'resiko-index'}" class="item">
       <i class="block layout icon"></i>
       Resiko
+    </router-link>
+
+    <router-link :to="{ name: 'pekerjaan-index'}" class="item">
+      <i class="block layout icon"></i>
+      Pekerjaan
     </router-link>
     <router-link :to="{ name: 'bahan-index'}" class="item">
       <i class="block layout icon"></i>
@@ -19,6 +20,16 @@
     <router-link :to="{ name: 'pegawai-index'}" class="item">
       <i class="block layout icon"></i>
       Pegawai
+    </router-link>
+
+
+    <router-link :to="{ name: 'cpm-index'}" class="item">
+      <i class="block layout icon"></i>
+      CPM
+    </router-link>
+    <router-link :to="{ name: 'evm-index'}" class="item">
+      <i class="block layout icon"></i>
+      EVM
     </router-link>
   </div>
 </template>

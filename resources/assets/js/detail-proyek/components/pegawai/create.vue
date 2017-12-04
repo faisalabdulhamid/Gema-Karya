@@ -6,7 +6,7 @@
         <div class="field">
           <label>Nama Pegawai</label>
           <select v-model="data.pegawai">
-            <option v-for="item in pegawai" :value="item.id">{{ item.name }}</option>
+            <option v-for="item in pegawai" :value="item.id">{{ item.nama }}</option>
           </select>
         </div>
 
@@ -34,23 +34,17 @@ export default {
         .then(res => {
           Vue.set(that.$data, 'pegawai', res.data)
         })
-        .catch(error => {
-          console.log(error)
-        })
     },
     simpan(){
       var that = this
       this.$http.post('/pegawai', this.data)
         .then(res => {
-          swal(
+          this.$swal(
             'Created!',
             res.data.message,
             'success'
           )
           that.$router.push({ name: 'pegawai-index'})
-        })
-        .catch(err => {
-          console.log(err);
         })
     }
   },
