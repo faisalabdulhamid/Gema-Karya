@@ -11,6 +11,8 @@
             <th class="nomor">No</th>
             <th>Pekerjaan</th>
             <th>Durasi</th>
+            <th>Kode</th>
+            <th>Pendahulan</th>
             <th class="action">#</th>
           </tr>
         </thead>
@@ -19,6 +21,8 @@
             <td>{{ index+1 }}</td>
             <td>{{ item.pekerjaan }}</td>
             <td>{{ item.durasi }}</td>
+            <td>{{ item.initial }}</td>
+            <td>{{ item.pendahuluan }}</td>
             <td>
               <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
             </td>

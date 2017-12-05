@@ -29,6 +29,17 @@ Route::prefix('detail')->name('detail')->middleware('auth:api')->group(function(
     Route::get('/{proyekId}/pekerjaan', 'DetailProyekController@pekerjaan')->name('.pekerjaan');
     Route::post('/{proyekId}/pekerjaan', 'DetailProyekController@createPekerjaan')->name('.pekerjaan.create');
     Route::delete('/{proyekId}/pekerjaan/{PekerjaanId}', 'DetailProyekController@deletePekerjaan')->name('.pekerjaan.destroy');
+    Route::get('/{proyekId}/select/pekerjaan-sebelumnya', function($proyekId){
+        $pekerjaan = App\Models\ProyekPekerjaan::where('proyek_id', $proyekId)->get();
+        $data = [];
+        foreach ($pekerjaan as $key => $value) {
+            $row['pekerjaan_id'] = $value->id;
+            $row['initial'] = $value->initial;
+            $row['pekerjaan'] = $value->pekerjaan()->first();
+            $data[] = $row;
+        }
+        return response()->json($data);
+    });
 
     Route::get('/{proyekId}/resiko', 'DetailProyekController@resiko')->name('.resiko');
     Route::post('/{proyekId}/resiko', 'DetailProyekController@createResiko')->name('.resiko.create');
@@ -43,3 +54,4 @@ Route::prefix('detail')->name('detail')->middleware('auth:api')->group(function(
     Route::post('/{proyekId}/pegawai', 'DetailProyekController@createPegawai')->name('.pegawai.create');
     Route::delete('/{proyekId}/pegawai/{PegawaiId}', 'DetailProyekController@deletePegawai')->name('.pegawai.destroy');
 });
+

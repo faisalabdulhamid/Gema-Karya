@@ -31,8 +31,7 @@ class DetailProyekController extends Controller
         $row['pekerjaan'] = $value->pekerjaan->pekerjaan;
         $row['harga'] = $value->harga;
         $row['durasi'] = $value->durasi;
-        $row['bobot'] = $value->bobot;
-        $row['jumlah_minggu'] = $value->jumlah_minggu;
+        $row['pendahuluan'] = $value->pendahuluan;
         $data[] = $row;
       }
       return response()->json($data, 200);
@@ -45,18 +44,28 @@ class DetailProyekController extends Controller
         'pekerjaan' => 'required',
         'harga' => 'required',
         'durasi' => 'required',
-        'bobot' => 'required',
-        'jumlah_minggu' => 'required',
       ]);
 
       $pekerjaan = new ProyekPekerjaan();
       $pekerjaan->initial = $request->initial;
       $pekerjaan->harga = $request->harga;
       $pekerjaan->durasi = $request->durasi;
-      $pekerjaan->bobot = $request->bobot;
-      $pekerjaan->jumlah_minggu = $request->jumlah_minggu;
       $pekerjaan->pekerjaan_id = $request->pekerjaan;
       $pekerjaan->proyek_id = $proyekId;
+
+      if(count($request->pekerjaan_sebelumnya) > 1){
+        $arr = [];
+        foreach ($request->pekerjaan_sebelumnya as $key => $value) {
+          if($value != 0){
+            $arr[] = $value;  
+          }
+        }
+        $pekerjaan->pekerjaan_sebelumnya = json_encode($arr);
+      }else{
+        if($request->pekerjaan_sebelumnya[0] != 0){
+          $pekerjaan->pekerjaan_sebelumnya = json_encode($request->pekerjaan_sebelumnya);
+        }
+      }
       $pekerjaan->save();
 
       return response()->json([
