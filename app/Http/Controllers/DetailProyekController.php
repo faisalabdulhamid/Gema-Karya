@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Proyek;
-use App\Models\ProyekPekerjaan;
-use App\Models\ProyekResiko;
 use App\Models\ProyekBahan;
 use App\Models\ProyekPegawai;
+use App\Models\ProyekPekerjaan;
+use App\Models\ProyekResiko;
+use App\Mppl\CPM;
+use App\Mppl\EVM;
+use Illuminate\Http\Request;
 
 class DetailProyekController extends Controller
 {
@@ -236,4 +238,21 @@ class DetailProyekController extends Controller
       ], 201);
     }
 
+    public function cpm($proyekId)
+    {
+      $cpm = new EVM($proyekId);
+      
+      return response()->json(
+        $cpm->respon_cpm()
+      );
+    }
+
+    public function evm($proyekId)
+    {
+      $evm = new EVM($proyekId);
+
+      return response()->json(
+        $evm->respon_data()
+      );
+    }
 }

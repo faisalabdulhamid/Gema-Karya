@@ -9,14 +9,12 @@
              v-on:changed-selection="changedSelection"
              style="border: solid 1px black; width:100%; height:400px"></diagram>
 
-    <button v-on:click="addNode">Add Child to Gamma</button>
-    <button v-on:click="modifyStuff">Modify view model data without undo</button>
+    
     </div>
   </div>
 </template>
 
 <script>
-
 
 export default {
   name: "DetailPegawaiIndex",
@@ -24,121 +22,94 @@ export default {
     return {
       diagramData: {  // passed to <diagram> as its modelData
         nodeDataArray: [
-          { key: 1, text: "Alpha", color: "lightblue" },
-          { key: 2, text: "Beta", color: "orange" },
-          { key: 3, text: "Gamma", color: "lightgreen" },
-          { key: 4, text: "Delta", color: "pink" }
+          // { key: 1, text: "Start", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
+          // { key: 2, text: "a", length: 4, earlyStart: 0, lateFinish: 5, critical: true },
+          // { key: 3, text: "b", length: 5.33, earlyStart: 0, lateFinish: 9.17, critical: false },
+          // { key: 4, text: "c", length: 5.17, earlyStart: 4, lateFinish: 9.17, critical: true },
+          // { key: 5, text: "d", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: false },
+          // { key: 6, text: "e", length: 5.17, earlyStart: 9.17, lateFinish: 14.34, critical: true },
+          // { key: 7, text: "f", length: 4.5, earlyStart: 10.33, lateFinish: 19.51, critical: false },
+          // { key: 8, text: "g", length: 5.17, earlyStart: 14.34, lateFinish: 19.51, critical: true },
+          // { key: 9, text: "Finish", length: 0, earlyStart: 19.51, lateFinish: 19.51, critical: true }
         ],
         linkDataArray: [
-          { from: 1, to: 2 },
-          { from: 1, to: 3 },
-          { from: 3, to: 4 }
+          // { from: 1, to: 2 },
+          // { from: 1, to: 3 },
+          // { from: 2, to: 4 },
+          // { from: 2, to: 5 },
+          // { from: 3, to: 6 },
+          // { from: 4, to: 6 },
+          // { from: 5, to: 7 },
+          // { from: 6, to: 8 },
+          // { from: 7, to: 9 },
+          // { from: 8, to: 9 }
         ]
       },
       currentNode: null,
       savedModelText: "",
-      counter: 1,  // used by addNode
-      counter2: 4  // used by modifyStuff
     }
   },
-      computed: {
-        currentNodeText: {
-          get: function() {
-            var node = this.currentNode;
-            if (node instanceof go.Node) {
-              return node.data.text;
-            } else {
-              return "";
-            }
-          },
-          set: function(val) {
-            var node = this.currentNode;
-            if (node instanceof go.Node) {
-              var model = this.model();
-              model.startTransaction();
-              model.setDataProperty(node.data, "text", val);
-              model.commitTransaction("edited text");
-            }
-          }
+  computed: {
+    currentNodeText: {
+      get: function() {
+        var node = this.currentNode;
+        if (node instanceof go.Node) {
+          return node.data.text;
+        } else {
+          return "";
         }
       },
-      methods: {
-        // get access to the GoJS Model of the GoJS Diagram
-        model: function() { return this.$refs.diag.model(); },
-
-        // tell the GoJS Diagram to update based on the arbitrarily modified model data
-        updateDiagramFromData: function() { this.$refs.diag.updateDiagramFromData(); },
-
-        // this event listener is declared on the <diagram>
-        modelChanged: function(e) {
-          if (e.isTransactionFinished) {  // show the model data in the page's TextArea
-            this.savedModelText = e.model.toJson();
-          }
-        },
-
-        changedSelection: function(e) {
-          var node = e.diagram.selection.first();
-          if (node instanceof go.Node) {
-            this.currentNode = node;
-            this.currentNodeText = node.data.text;
-          } else {
-            this.currentNode = null;
-            this.currentNodeText = "";
-          }
-        },
-
-        // Here we modify the GoJS Diagram's Model using its methods,
-        // which can be much more efficient than modifying some memory and asking
-        // the GoJS Diagram to find differences and update accordingly.
-        // Undo and Redo will work as expected.
-        addNode: function() {
+      set: function(val) {
+        var node = this.currentNode;
+        if (node instanceof go.Node) {
           var model = this.model();
           model.startTransaction();
-          model.setDataProperty(model.findNodeDataForKey(4), "color", "purple");
-          var data = { text: "NEW " + this.counter++, color: "yellow" };
-          model.addNodeData(data);
-          model.addLinkData({ from: 3, to: model.getKeyForNodeData(data) });
-          model.commitTransaction("added Node and Link");
-          // also manipulate the Diagram by changing its Diagram.selection collection
-          var diagram = this.$refs.diag.diagram;
-          diagram.select(diagram.findNodeForData(data));
-        },
-
-        // Here we modify VUE's view model directly, and
-        // then ask the GoJS Diagram to update everything from the data.
-        // This is less efficient than calling the appropriate GoJS Model methods.
-        // NOTE: Undo will not be able to restore all of the state properly!!
-        modifyStuff: function() {
-          var data = this.diagramData;
-          data.nodeDataArray[0].color = "red";
-          // Note here that because we do not have the GoJS Model,
-          // we cannot find out what values would be unique keys, for reference by the link data.
-          data.nodeDataArray.push({ key: ++this.counter2, text: this.counter2.toString(), color: "orange" });
-          data.linkDataArray.push({ from: 2, to: this.counter2 });
-          this.updateDiagramFromData();
+          model.setDataProperty(node.data, "text", val);
+          model.commitTransaction("edited text");
         }
-      },
-      components:{
-        diagram: require('./diagram')
       }
+    }
+  },
+  methods: {
+    // get access to the GoJS Model of the GoJS Diagram
+    model: function() { return this.$refs.diag.model(); },
+
+    // tell the GoJS Diagram to update based on the arbitrarily modified model data
+    updateDiagramFromData: function() { this.$refs.diag.updateDiagramFromData(); },
+
+    // this event listener is declared on the <diagram>
+    modelChanged: function(e) {
+      if (e.isTransactionFinished) {  // show the model data in the page's TextArea
+        this.savedModelText = e.model.toJson();
+      }
+    },
+
+    changedSelection: function(e) {
+      var node = e.diagram.selection.first();
+      if (node instanceof go.Node) {
+        this.currentNode = node;
+        this.currentNodeText = node.data.text;
+      } else {
+        this.currentNode = null;
+        this.currentNodeText = "";
+      }
+    },
+    getData(){
+      var that = this
+      this.$http.get('/cpm').then(res => {
+        Vue.set(that.$data, 'diagramData', res.data)
+        // Vue.set(that.$data, 'diagramData', res.data.linkDataArray)
+        // console.log(res.data.nodeDataArray)
+        // console.log(this.diagramData.nodeDataArray)
+      })
+    }
+    
+  },
+  created(){
+    this.getData()
+  },
+  components:{
+    diagram: require('./diagram-network')
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-.container{
-  min-height:100vh;
-  .header{
-    margin: 30px;
-  }
-  .segment{
-    margin: 30px;
-  }
-
-  .nomor{
-    width: 50px;
-  }
-  .action{
-    width: 50px;
-  }
-}
-</style>

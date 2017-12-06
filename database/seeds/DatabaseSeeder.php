@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         factory(App\Models\Proyek::class, 5)->create();
         $this->call(UserSeeder::class);
+        $this->call(PeoyekJalan::class);
     }
 }

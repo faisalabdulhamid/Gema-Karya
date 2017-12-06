@@ -9,6 +9,9 @@ class Proyek extends Model
     protected $table = 'proyek';
     protected $appends = ['url_show'];
 
+    protected $hidden = [
+    	'created_at', 'updated_at'
+    ];
     public function getUrlShowAttribute()
     {
       return route('detail', ['param'=>$this->id]);

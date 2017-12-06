@@ -10,7 +10,6 @@
 
 	export default{
 		name: "DiagramNetwork",
-		// el:'diagram',
 		template: '<div></div>',
 		props: ['modelData'],
 		data: function() { return { diagram: null } },  // provide access to the GoJS Diagram

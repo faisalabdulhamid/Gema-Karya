@@ -53,5 +53,8 @@ Route::prefix('detail')->name('detail')->middleware('auth:api')->group(function(
     Route::get('/{proyekId}/pegawai', 'DetailProyekController@pegawai')->name('.pegawai');
     Route::post('/{proyekId}/pegawai', 'DetailProyekController@createPegawai')->name('.pegawai.create');
     Route::delete('/{proyekId}/pegawai/{PegawaiId}', 'DetailProyekController@deletePegawai')->name('.pegawai.destroy');
+
+    Route::get('/{proyekId}/cpm', 'DetailProyekController@cpm')->name('.cpm');
+    Route::get('/{proyekId}/evm', 'DetailProyekController@evm')->name('.cpm');
 });
 
