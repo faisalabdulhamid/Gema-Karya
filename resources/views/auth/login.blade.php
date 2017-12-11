@@ -16,7 +16,7 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="username" placeholder="Username">
+            <input type="text" name="email" placeholder="Email" >
           </div>
         </div>
         <div class="field">

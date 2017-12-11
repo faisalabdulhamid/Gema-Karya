@@ -18,11 +18,10 @@ class BuatTableProyekPekerjaan extends Migration
             $table->string('initial');
             $table->unsignedInteger('harga');
             $table->tinyInteger('durasi');
-            $table->float('bobot', 5, 2);
-            $table->tinyInteger('jumlah_minggu');
-            $table->timestamps();
+            $table->float('bobot', 5, 3);
             $table->unsignedInteger('proyek_id');
             $table->unsignedInteger('pekerjaan_id');
+            $table->timestamps();
 
             $table->foreign('proyek_id')
               ->references('id')

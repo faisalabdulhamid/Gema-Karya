@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Utilities\InterfaceModel;
-use App\Models\Utilities\ModelHepler;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
 
-class Users extends Authenticatable implements InterfaceModel
+class Users extends Authenticatable
 {
-    use HasApiTokens, Notifiable, ModelHepler;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.

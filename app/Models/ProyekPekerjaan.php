@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProyekPekerjaan extends Model
 {
     protected $table = 'proyek_pekerjaan';
-    protected $appends = ['pendahuluan'];
+    // protected $appends = ['pendahuluan'];
 
     public function proyek()
     {
@@ -19,16 +19,13 @@ class ProyekPekerjaan extends Model
       return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id');
     }
 
-    public function getPendahuluanAttribute()
+    public function pendahulu()
     {
-    	$str = $this->pekerjaan_sebelumnya;
-      	$arr = (array)json_decode($str);
-      	$data = $this->whereIn('id', $arr)->get();
-      	$row = [];
-      	foreach ($data as $key => $value) {
-      		$row[] = $value->initial;
-      	}
+      return $this->belongsToMany(ProyekPekerjaan::class, 'proyek_pekerjaan_detail', 'proyek_pekerjaan_id', 'proyek_pekerjaan_sebelumnya');
+    }
 
-      	return implode(", ", $row);
+    public function penerus()
+    {
+      return $this->belongsToMany(ProyekPekerjaan::class, 'proyek_pekerjaan_detail', 'proyek_pekerjaan_sebelumnya', 'proyek_pekerjaan_id');
     }
 }
