@@ -20,11 +20,11 @@
         <tbody>
           <tr v-for="(item, index) in bahan">
             <td>{{ index+1 }}</td>
-            <td>{{ item.bahan }}</td>
+            <td>{{ item.bahan.bahan_baku }}</td>
             <td>{{ item.jumlah }}</td>
-            <td>{{ item.satuan }}</td>
-            <td class="text-right">Rp.{{ item.harga }}</td>
-            <td class="text-right">Rp.{{ item.total }}</td>
+            <td>{{ item.bahan.satuan }}</td>
+            <td class="text-right">Rp.{{ item.bahan.harga }}</td>
+            <td class="text-right">Rp.{{ item.jumlah * item.bahan.harga }}</td>
             <td>
               <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
             </td>
@@ -45,36 +45,35 @@ export default {
   },
   methods:{
     getData(){
-      var that = this
+      let self = this
       this.$http.get('/bahan')
         .then(res => {
-          Vue.set(that.$data, 'bahan', res.data)
+          Vue.set(self.$data, 'bahan', res.data)
         })
     },
     hapus(id){
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/bahan/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getData()
+      .then((result) => {
+        if (result.value) {
+          let self = this
+          self.$http.delete('/bahan/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getData()
-            }, 3000)
           })
         }
-      });
+      })
     }
   },
   created(){

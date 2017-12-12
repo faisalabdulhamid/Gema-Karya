@@ -7,6 +7,11 @@ use App\Models\Pegawai;
 
 class PegawaiController extends Controller
 {
+
+    public function __construct()
+    {
+      // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-      if(request()->ajax()){
+      if(request()->wantsJson()){
         return response()->json(Pegawai::all(), 200);
       }
       return view('content.pegawai.index');

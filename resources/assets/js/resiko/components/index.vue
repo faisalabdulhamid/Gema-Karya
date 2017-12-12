@@ -41,47 +41,46 @@
 
 <script>
 export default {
-  name: "ResikoIndex",
+  name: "Resiko",
   data(){
     return {
       resiko: []
     }
   },
   methods:{
-    getResiko(){
-      var that = this
+    getData(){
+      let self = this
       this.$http.get('').then(res => {
-        Vue.set(that.$data, 'resiko', res.data)
+        Vue.set(self.$data, 'resiko', res.data)
       })
     },
     hapus(id){
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getResiko()
+      .then((result) => {
+        if (result.value) {
+          var self = this
+          self.$http.delete('/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getResiko()
-            }, 3000)
-          }).catch(err => {
-            console.log(err)
           })
         }
-      });
+      })
     }
   },
-  created(){
-    this.getResiko()
+  beforeMount(){
+    this.getData()
   }
 }
 </script>

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import {base_url} from './../../../config/env'
 export default {
   name: 'DetailBahanCreate',
   data(){
@@ -35,26 +36,26 @@ export default {
   },
   methods:{
     getSelectBahan(){
-      var that = this
-      axios.get('/bahan-baku')
+      var self = this
+      this.$http.get(`${base_url}/bahan-baku`)
         .then(res => {
-          Vue.set(that.$data, 'bahan', res.data)
+          Vue.set(self.$data, 'bahan', res.data)
         })
     },
     simpan(){
-      var that = this
+      var self = this
       this.$http.post('/bahan', this.data)
         .then(res => {
-          that.$swal(
+          self.$swal(
             'Created!',
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'bahan-index'})
+          self.$router.push({ name: 'bahan-index'})
         })
     }
   },
-  created(){
+  beforeMount(){
     this.getSelectBahan()
   }
 }

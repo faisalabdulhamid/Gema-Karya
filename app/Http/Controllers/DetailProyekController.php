@@ -7,16 +7,21 @@ use App\Models\ProyekBahan;
 use App\Models\ProyekPegawai;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekResiko;
-use App\Mppl\CPM;
 use App\Mppl\EVM;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DetailProyekController extends Controller
 {
+    public function __construct()
+    {
+      // $this->middleware('auth');
+    }
+
     public function index($id)
     {
       $proyek = Proyek::find($id);
-      if(request()->ajax()){
+      if(request()->wantsJson()){
         return response()->json($proyek, 200);
       }
       return view('content.detail.index', compact('proyek'));
@@ -24,18 +29,22 @@ class DetailProyekController extends Controller
 
     public function pekerjaan($proyekId)
     {
-      $pekerjaan = ProyekPekerjaan::where('proyek_id', $proyekId)->get();
-      $data = [];
-      foreach ($pekerjaan as $value) {
-        $row = [];
-        $row['id'] = $value->id;
-        $row['initial'] = $value->initial;
-        $row['pekerjaan'] = $value->pekerjaan->pekerjaan;
-        $row['harga'] = $value->harga;
-        $row['durasi'] = $value->durasi;
-        $row['pendahuluan'] = $value->pendahuluan;
-        $data[] = $row;
-      }
+      $proyek = Proyek::find($proyekId);
+      $pekerjaan = ProyekPekerjaan::with(['pendahulu' => function($q){
+        $q->select('id', 'initial')
+          ->orderBy('initial');
+      }])->where('proyek_id', $proyekId)->get();
+      $data = $pekerjaan->map(function ($item, $key) use($proyek) {
+          return [
+            "id" => $item->id,
+            "initial" => $item->initial,
+            "harga" => $item->harga,
+            "durasi" => $item->durasi,
+            "bobot" => round(($item->harga / $proyek->nilai_kontrak) * 100, 4) ,
+            "nama_pekerjaan" => $item->nama_pekerjaan,
+            "pendahulu" => implode(", ", $item->pendahulu->pluck('initial')->toArray())
+          ];
+      });
       return response()->json($data, 200);
     }
 
@@ -44,31 +53,29 @@ class DetailProyekController extends Controller
       $this->validate($request, [
         'initial' => 'required',
         'pekerjaan' => 'required',
-        'harga' => 'required',
-        'durasi' => 'required',
+        'harga' => 'required|numeric',
+        'durasi' => 'required|numeric',
       ]);
 
-      $pekerjaan = new ProyekPekerjaan();
-      $pekerjaan->initial = $request->initial;
-      $pekerjaan->harga = $request->harga;
-      $pekerjaan->durasi = $request->durasi;
-      $pekerjaan->pekerjaan_id = $request->pekerjaan;
-      $pekerjaan->proyek_id = $proyekId;
-
-      if(count($request->pekerjaan_sebelumnya) > 1){
-        $arr = [];
-        foreach ($request->pekerjaan_sebelumnya as $key => $value) {
-          if($value != 0){
-            $arr[] = $value;  
+      DB::transaction(function() use ($proyekId, $request){
+        $pekerjaan = new ProyekPekerjaan();
+        $pekerjaan->initial = $request->initial;
+        $pekerjaan->harga = $request->harga;
+        $pekerjaan->durasi = $request->durasi;
+        $pekerjaan->pekerjaan_id = $request->pekerjaan;
+        $pekerjaan->proyek_id = $proyekId;
+        $pekerjaan->save();
+        if(count($request->pekerjaan_sebelumnya) > 1){
+          foreach ($request->pekerjaan_sebelumnya as $key => $value) {
+            $pekerjaan->pendahulu()->attach($value); 
+          }
+        }else{
+          if($request->pekerjaan_sebelumnya[0] != 0){
+            $pekerjaan->pendahulu()->attach($request->pekerjaan_sebelumnya[0]);
           }
         }
-        $pekerjaan->pekerjaan_sebelumnya = json_encode($arr);
-      }else{
-        if($request->pekerjaan_sebelumnya[0] != 0){
-          $pekerjaan->pekerjaan_sebelumnya = json_encode($request->pekerjaan_sebelumnya);
-        }
-      }
-      $pekerjaan->save();
+
+      });
 
       return response()->json([
         'message' => 'Data Berhasil Ditambahkan',
@@ -87,26 +94,13 @@ class DetailProyekController extends Controller
     public function resiko($proyekId)
     {
       $resiko = ProyekResiko::where('proyek_id', $proyekId)->get();
-      $data = [];
-      foreach ($resiko as $value) {
-        $row = [];
-        $row['id'] = $value->id;
-        $row['kode'] = $value->kode;
-        $row['resiko'] = $value->resiko->resiko;
-        $row['nilai_dampak'] = $value->nilai_dampak;
-        $row['nilai_kemungkinan'] = $value->nilai_kemungkinan;
-        $row['kemungkinan'] = $value->kemungkinan;
-        $row['level'] = $value->level;
-        $row['mitigasi'] = $value->mitigasi;
-        $data[] = $row;
-      }
-      return response()->json($data, 200);
+      return response()->json($resiko, 200);
     }
 
     public function createResiko($proyekId, Request $request)
     {
       $this->validate($request, [
-        'kode' => 'required',
+        'kode' => 'required|min:2',
         'nilai_dampak' => 'required',
         'dampak' => 'required',
         'nilai_kemungkinan' => 'required',
@@ -158,26 +152,15 @@ class DetailProyekController extends Controller
 
     public function bahan($proyekId)
     {
-      $bahan = ProyekBahan::where('proyek_id', $proyekId)->get();
-      $data = [];
-      foreach ($bahan as $value) {
-        $row = [];
-        $row['id'] = $value->id;
-        $row['bahan'] = $value->bahan->bahan_baku;
-        $row['jumlah'] = $value->jumlah;
-        $row['satuan'] = $value->bahan->satuan;
-        $row['harga'] = number_format($value->bahan->harga, 2, ',', '.');
-        $row['total'] = number_format($value->bahan->harga * $value->jumlah, 2, ',', '.');
-        $data[] = $row;
-      }
-      return response()->json($data, 200);
+      $bahan = ProyekBahan::with('bahan')->where('proyek_id', $proyekId)->get();
+      return response()->json($bahan, 200);
     }
 
     public function createBahan($proyekId, Request $request)
     {
       $this->validate($request, [
         'bahan' => 'required',
-        'jumlah' => 'required',
+        'jumlah' => 'required|numeric',
       ]);
 
       $bahan = new ProyekBahan();
@@ -203,14 +186,7 @@ class DetailProyekController extends Controller
     public function pegawai($proyekId)
     {
       $pegawai = ProyekPegawai::where('proyek_id', $proyekId)->get();
-      $data = [];
-      foreach ($pegawai as $value) {
-        $row = [];
-        $row['id'] = $value->id;
-        $row['pegawai'] = $value->pegawai->nama;
-        $data[] = $row;
-      }
-      return response()->json($data, 200);
+      return response()->json($pegawai, 200);
     }
 
     public function createPegawai($proyekId, Request $request)
@@ -240,11 +216,10 @@ class DetailProyekController extends Controller
 
     public function cpm($proyekId)
     {
-      $cpm = new EVM($proyekId);
-      
+      $evm = new EVM($proyekId);
       return response()->json(
-        $cpm->respon_cpm()
-      );
+        $evm->result_cpm()
+      );      
     }
 
     public function evm($proyekId)
@@ -252,7 +227,7 @@ class DetailProyekController extends Controller
       $evm = new EVM($proyekId);
 
       return response()->json(
-        $evm->respon_data()
+        $evm->result_evm()
       );
     }
 }

@@ -54,15 +54,15 @@ export default {
   },
   methods:{
     simpan(){
-      var that = this
+      var self = this
       this.$http.post('/', this.data)
         .then(res => {
-          swal(
+          self.$swal(
             'Created!',
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'index'})
+          self.$router.push({ name: 'index'})
         })
     }
   }

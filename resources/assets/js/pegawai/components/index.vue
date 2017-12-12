@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "PegawaiIndex",
+  name: "Index",
   data(){
     return {
       pegawai: []
@@ -49,40 +49,37 @@ export default {
   },
   methods:{
     getData(){
-      var that = this
+      let self = this
       this.$http.get('').then(res => {
-        Vue.set(that.$data, 'pegawai', res.data)
-      }).catch(err => {
-        console.log(err)
+        Vue.set(self.$data, 'pegawai', res.data)
       })
     },
     hapus(id){
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/'+id).then(res => {
-            this.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getData()
+      .then((result) => {
+        if (result.value) {
+          let self = this
+          self.$http.delete('/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getData()
-            }, 3000)
           })
         }
-      });
+      })
     }
   },
-  created(){
+  beforeMount(){
     this.getData()
   }
 }

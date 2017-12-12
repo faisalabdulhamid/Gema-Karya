@@ -7,6 +7,10 @@ use App\Models\Resiko;
 
 class ResikoController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,7 @@ class ResikoController extends Controller
      */
     public function index()
     {
-      if(request()->ajax())
+      if(request()->wantsJson())
       {
         return response()->json(Resiko::all(), 200);
       }

@@ -50,47 +50,46 @@
 
 <script>
 export default {
-  name: "ProyekIndex",
+  name: "Index",
   data(){
     return {
       proyek: []
     }
   },
   methods:{
-    getProyek(){
-      var that = this
+    getData(){
+      var self = this
       this.$http.get('').then(res => {
-        Vue.set(that.$data, 'proyek', res.data)
+        Vue.set(self.$data, 'proyek', res.data)
       })
     },
     hapus(id){
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getProyek()
+      .then((result) => {
+        if (result.value) {
+          var self = this
+          self.$http.delete('/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getProyek()
-            }, 3000)
           })
         }
-      });
+      })
     }
   },
-  created(){
-    this.getProyek()
+  beforeMount(){
+    this.getData()
   }
 }
 </script>

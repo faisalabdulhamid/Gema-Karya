@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import {base_url} from './../../../config/env'
+
 export default {
   name: 'DetailResikoCreate',
   data(){
@@ -83,7 +85,7 @@ export default {
   methods:{
     getSelectResiko(){
       var that = this
-      axios.get('/resiko')
+      this.$http.get(`${base_url}/resiko`)
         .then(res => {
           Vue.set(that.$data, 'resiko', res.data)
         })
@@ -101,7 +103,7 @@ export default {
         })
     }
   },
-  created(){
+  beforeMount(){
     this.getSelectResiko()
   }
 }

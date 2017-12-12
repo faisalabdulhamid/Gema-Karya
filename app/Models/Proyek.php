@@ -12,8 +12,9 @@ class Proyek extends Model
     protected $hidden = [
     	'created_at', 'updated_at'
     ];
+    
     public function getUrlShowAttribute()
     {
-      return route('detail', ['param'=>$this->id]);
+      return route('detail.index', ['param'=>$this->id]);
     }
 }

@@ -10,6 +10,8 @@
           <tr>
             <th class="nomor">No</th>
             <th>Pekerjaan</th>
+            <th>Harga</th>
+            <th>Bobot</th>
             <th>Durasi</th>
             <th>Kode</th>
             <th>Pendahulan</th>
@@ -19,10 +21,12 @@
         <tbody>
           <tr v-for="(item, index) in pekerjaan">
             <td>{{ index+1 }}</td>
-            <td>{{ item.pekerjaan }}</td>
+            <td>{{ item.nama_pekerjaan }}</td>
+            <td>{{ item.harga }}</td>
+            <td>{{ item.bobot }}</td>
             <td>{{ item.durasi }}</td>
             <td>{{ item.initial }}</td>
-            <td>{{ item.pendahuluan }}</td>
+            <td>{{ item.pendahulu }}</td>
             <td>
               <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
             </td>

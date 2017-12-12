@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "CreatePekerjaan",
+  name: "Create",
   data(){
     return {
       data:{
@@ -29,7 +29,7 @@ export default {
   },
   methods:{
     simpan(){
-      var that = this
+      let self = this
       this.$http.post('', this.data)
         .then(res => {
           this.$swal(
@@ -37,10 +37,7 @@ export default {
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'index'})
-        })
-        .catch(err => {
-          console.log(err);
+          self.$router.push({ name: 'index'})
         })
     }
   },

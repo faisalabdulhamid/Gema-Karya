@@ -17,7 +17,7 @@
         <tbody>
           <tr v-for="(item, index) in resiko">
             <td>{{ item.kode }}</td>
-            <td>{{ item.resiko }}</td>
+            <td>{{ item.nama_resiko }}</td>
             <td>{{ item.nilai_dampak * item.nilai_kemungkinan }}</td>
             <td>
               <div class="ui small icon buttons">
@@ -44,36 +44,35 @@ export default {
   },
   methods:{
     getData(){
-      var that = this
+      let self = this
       this.$http.get('/resiko')
         .then(res => {
-          Vue.set(that.$data, 'resiko', res.data)
+          Vue.set(self.$data, 'resiko', res.data)
         })
     },
     hapus(id){
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/resiko/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getData()
+      .then((result) => {
+        if (result.value) {
+          let self = this
+          self.$http.delete('/resiko/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getData()
-            }, 3000)
           })
         }
-      });
+      })
     }
   },
   created(){

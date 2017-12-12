@@ -19,7 +19,8 @@
 
 <script>
 export default {
-  name: "EditResiko",
+  name: "Edit",
+  props: ['id'],
   data(){
     return {
       data:{
@@ -30,28 +31,22 @@ export default {
   },
   methods:{
     simpan(){
-      var url = window.location.hash
-      var id = url.split('/')
-
-      var that = this
-      this.$http.put('/'+id[2], this.data)
+      let self = this
+      this.$http.put('/'+this.id, this.data)
         .then(res => {
-          that.$swal(
+          self.$swal(
             'Updated!',
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'index'})
+          self.$router.push({ name: 'index'})
         })
     },
     getData(){
-      var url = window.location.hash
-      var id = url.split('/')
-
-      var that = this
-      this.$http.get('/'+id[2])
+      let self = this
+      this.$http.get('/'+this.id)
         .then(res => {
-          Vue.set(that.$data, 'data', res.data)
+          Vue.set(self.$data, 'data', res.data)
         })
     }
   },

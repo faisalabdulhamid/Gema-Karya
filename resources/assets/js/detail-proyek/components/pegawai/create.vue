@@ -29,14 +29,14 @@ export default {
   },
   methods:{
     getSelectPegawai(){
-      var that = this
+      let self = this
       axios.get('/pegawai')
         .then(res => {
-          Vue.set(that.$data, 'pegawai', res.data)
+          Vue.set(self.$data, 'pegawai', res.data)
         })
     },
     simpan(){
-      var that = this
+      let self = this
       this.$http.post('/pegawai', this.data)
         .then(res => {
           this.$swal(
@@ -44,11 +44,11 @@ export default {
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'pegawai-index'})
+          self.$router.push({ name: 'pegawai-index'})
         })
     }
   },
-  created(){
+  beforeMount(){
     this.getSelectPegawai()
   }
 }

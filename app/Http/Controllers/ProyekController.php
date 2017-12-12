@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Proyek;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProyekController extends Controller
 {
+    public function __construct()
+    {
+      // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class ProyekController extends Controller
      */
     public function index()
     {
-      if(request()->ajax()){
+      if(request()->wantsJson()){
         return response()->json(Proyek::all(), 200);
       }
       return view('content.proyek.index');
@@ -41,9 +46,9 @@ class ProyekController extends Controller
         $this->validate($request, [
           'nama' => 'required',
           'nilai_kontrak' => 'required',
-          'tanggal_kontrak' => 'required',
-          'tanggal_mulai' => 'required',
-          'tanggal_selesai' => 'required',
+          'tanggal_kontrak' => 'required|date',
+          'tanggal_mulai' => 'required|date',
+          'tanggal_selesai' => 'required|date',
           'deskripsi' => 'required',
         ]);
 

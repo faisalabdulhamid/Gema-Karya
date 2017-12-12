@@ -16,7 +16,7 @@
         <tbody>
           <tr v-for="(item, index) in pegawai">
             <td>{{ index+1 }}</td>
-            <td>{{ item.pegawai }}</td>
+            <td>{{ item.nama_pegawai }}</td>
             <td>
               <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
             </td>
@@ -47,27 +47,25 @@ export default {
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/pegawai/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getData()
+      .then((result) => {
+        if (result.value) {
+          let self = this
+          self.$http.delete('/pegawai/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getData()
-            }, 3000)
           })
-
         }
-      });
+      })
     }
   },
   created(){

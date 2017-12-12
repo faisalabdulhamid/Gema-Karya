@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "AppPegawai"
+  name: "App",
 }
 </script>
 

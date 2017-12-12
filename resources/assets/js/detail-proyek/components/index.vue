@@ -40,8 +40,6 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex'
-
 export default {
   name: "IndexDetailProyek",
   data(){
@@ -49,17 +47,16 @@ export default {
       proyek: {}
     };
   },
-  methods: mapActions({
-    getProyek(){
-
-      var that = this
+  methods: {
+    getData(){
+      let self = this
       this.$http.get('').then(res => {
-        Vue.set(that.$data, 'proyek', res.data)
+        Vue.set(self.$data, 'proyek', res.data)
       })
     }
-  }),
-  created(){
-    this.getProyek()
+  },
+  beforeMount(){
+    this.getData()
   },
 }
 </script>

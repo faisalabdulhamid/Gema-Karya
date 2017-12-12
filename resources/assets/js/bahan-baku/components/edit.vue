@@ -27,7 +27,8 @@
 
 <script>
 export default {
-  name: "EditBahanBaku",
+  name: "Edit",
+  props: ['id'],
   data(){
     return {
       data:{
@@ -40,25 +41,22 @@ export default {
   },
   methods:{
     simpan(){
-      var that = this
-      this.$http.put('/'+this.data.id, this.data)
+      let self = this
+      this.$http.put('/'+this.id, this.data)
         .then(res => {
           this.$swal(
             'Updated!',
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'index'})
+          self.$router.push({ name: 'index'})
         })
     },
     getData(){
-      var url = window.location.hash
-      var id = url.split('/')
-
-      var that = this
-      this.$http.get('/'+id[2])
+      let self = this
+      this.$http.get('/'+this.id)
         .then(res => {
-          Vue.set(that.$data, 'data', res.data)
+          Vue.set(self.$data, 'data', res.data)
         })
     }
   },

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Mppl;
 
 class Activity

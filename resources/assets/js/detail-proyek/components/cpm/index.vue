@@ -17,7 +17,7 @@
 <script>
 
 export default {
-  name: "DetailPegawaiIndex",
+  name: "DetailDiagramIndex",
   data(){
     return {
       diagramData: {  // passed to <diagram> as its modelData
@@ -98,14 +98,12 @@ export default {
       var that = this
       this.$http.get('/cpm').then(res => {
         Vue.set(that.$data, 'diagramData', res.data)
-        // Vue.set(that.$data, 'diagramData', res.data.linkDataArray)
-        // console.log(res.data.nodeDataArray)
-        // console.log(this.diagramData.nodeDataArray)
+        console.log(res.data)
       })
     }
     
   },
-  created(){
+  beforeMount(){
     this.getData()
   },
   components:{

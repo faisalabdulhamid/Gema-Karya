@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "CreateResiko",
+  name: "Create",
   data(){
     return {
       data:{
@@ -29,15 +29,15 @@ export default {
   },
   methods:{
     simpan(){
-      var that = this
+      let self = this
       this.$http.post('/', this.data)
         .then(res => {
-          that.$swal(
+          self.$swal(
             'Created!',
             res.data.message,
             'success'
           )
-          that.$router.push({ name: 'index'})
+          self.$router.push({ name: 'index'})
         })
     }
   }

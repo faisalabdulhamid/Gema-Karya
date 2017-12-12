@@ -40,17 +40,17 @@
 
 <script>
 export default {
-  name: "PekerjaanIndex",
+  name: "Index",
   data(){
     return {
       pekerjaan: []
     }
   },
   methods:{
-    getPekerjaan(){
-      var that = this
+    getData(){
+      let self = this
       this.$http.get('').then(res => {
-        Vue.set(that.$data, 'pekerjaan', res.data)
+        Vue.set(self.$data, 'pekerjaan', res.data)
       }).catch(err => {
         console.log(err)
       })
@@ -59,33 +59,29 @@ export default {
       this.$swal({
         title: "Are you sure?",
         text: "Are you sure that you want to leave this page?",
-        icon: "warning",
-        dangerMode: true,
+        type: "warning",
+        showCancelButton: true,
       })
-      .then(willDelete => {
-        if (willDelete) {
-          var that = this
-          that.$http.delete('/'+id).then(res => {
-            that.$swal(
-              "Deleted!",
-              res.data.message,
-              "success"
-            ).then(() => {
-              that.getPekerjaan()
+      .then((result) => {
+        if (result.value) {
+          let self = this
+          self.$http.delete('/'+id)
+          .then(res => {
+            this.$swal({
+              title: "Deleted!",
+              text: res.data.message,
+              type: "success",
+              timer: 5000
+            }).then(() => {
+              self.getData()
             })
-            setTimeout(function(){
-              that.getPekerjaan()
-            }, 3000)
-          }).catch(err => {
-            console.log(err)
           })
-
         }
-      });
+      })
     }
   },
-  created(){
-    this.getPekerjaan()
+  beforeMount(){
+    this.getData()
   }
 }
 </script>

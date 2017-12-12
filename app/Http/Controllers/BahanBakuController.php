@@ -14,7 +14,7 @@ class BahanBakuController extends Controller
      */
     public function index()
     {
-      if(request()->ajax()){
+      if(request()->wantsJson()){
         return response()->json(BahanBaku::all(), 200);
       }
       return view('content.bahan-baku.index');
@@ -41,7 +41,7 @@ class BahanBakuController extends Controller
       $this->validate($request, [
         'bahan_baku' => 'required',
         'satuan' => 'required',
-        'harga' => 'required',
+        'harga' => 'required|numeric',
       ]);
 
       $bahan = new BahanBaku();
@@ -92,7 +92,7 @@ class BahanBakuController extends Controller
       $this->validate($request, [
         'bahan_baku' => 'required',
         'satuan' => 'required',
-        'harga' => 'required',
+        'harga' => 'required|numeric',
       ]);
 
       $bahan = BahanBaku::find($id);
