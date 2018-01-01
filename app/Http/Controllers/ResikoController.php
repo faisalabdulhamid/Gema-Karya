@@ -47,9 +47,9 @@ class ResikoController extends Controller
           'resiko' => 'required'
         ]);
 
-        $resiko = new Resiko();
-        $resiko->resiko = $request->resiko;
-        $resiko->save();
+        // $resiko = new Resiko();
+        // $resiko->resiko = $request->resiko;
+        // $resiko->save();
 
         return response()->json([
           'message' => 'Data Berhasil Ditambahkan',

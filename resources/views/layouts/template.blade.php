@@ -10,6 +10,8 @@
   <title>@yield('title')</title>
   <link rel="stylesheet" type="text/css" href="{{url('dist/semantic.css')}}">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="base-url" content="{{ config('app.url') }}">
+  <meta name="app-name" content="{{ config('app.name') }}">
   @stack('css')
 
   <style type="text/css">

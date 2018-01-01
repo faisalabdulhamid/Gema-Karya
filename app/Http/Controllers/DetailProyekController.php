@@ -7,7 +7,9 @@ use App\Models\ProyekBahan;
 use App\Models\ProyekPegawai;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekResiko;
+use App\Mppl\CPM;
 use App\Mppl\EVM;
+use App\Mppl\EVMBelum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -89,6 +91,22 @@ class DetailProyekController extends Controller
       return response()->json([
         'message' => 'Data Berhasil Dihapus',
       ], 201);
+    }
+
+    public function lockProject($proyekId)
+    {
+      $proyek = Proyek::find($proyekId);
+      $proyek->status = 0;
+      $proyek->save();
+      //------------------------------------------
+
+      $cpm = new CPM($proyekId);
+      $pekerjaan_fiter = $cpm->result();
+      
+
+
+
+      return response()->json($pekerjaan_fiter);
     }
 
     public function resiko($proyekId)
@@ -213,6 +231,8 @@ class DetailProyekController extends Controller
         'message' => 'Data Berhasil Dihapus',
       ], 201);
     }
+
+    
 
     public function cpm($proyekId)
     {

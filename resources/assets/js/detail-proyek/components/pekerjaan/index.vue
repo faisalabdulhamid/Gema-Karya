@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="ui container">
     <div class="ui tall stacked segment">
-      <router-link :to="{ name: 'pekerjaan-create'}" class="ui blue button icon">
+      <router-link v-if="proyek.status" :to="{ name: 'pekerjaan-create'}" class="ui blue button icon">
         <i class="plus icon"></i>
       </router-link>
-      <hr/>
+      <hr v-if="proyek.status" />
       <table class="ui table">
         <thead>
           <tr>
@@ -15,7 +15,7 @@
             <th>Durasi</th>
             <th>Kode</th>
             <th>Pendahulan</th>
-            <th class="action">#</th>
+            <th v-if="proyek.status"  class="action">#</th>
           </tr>
         </thead>
         <tbody>
@@ -27,12 +27,14 @@
             <td>{{ item.durasi }}</td>
             <td>{{ item.initial }}</td>
             <td>{{ item.pendahulu }}</td>
-            <td>
+            <td v-if="proyek.status" >
               <a class="ui red button icon" v-on:click="hapus(item.id)"><i class="trash icon"></i></a>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <a v-if="proyek.status" class="ui green button icon" v-on:click="lock"><i class="lock icon"></i></a>
     </div>
   </div>
 </template>
@@ -42,7 +44,8 @@ export default {
   name: "DetailPekerjaanIndex",
   data(){
     return {
-      pekerjaan: []
+      pekerjaan: [],
+      proyek: []
     }
   },
   methods:{
@@ -51,6 +54,26 @@ export default {
       this.$http.get('/pekerjaan')
         .then(res => {
           Vue.set(that.$data, 'pekerjaan', res.data)
+        })
+    },
+    getProyek(){
+      var that = this
+      this.$http.get('')
+        .then(res => {
+          Vue.set(that.$data, 'proyek', res.data)
+        })
+    },
+    lock(){
+      let that = this
+       this.$http.post('')
+        .then(res => {
+          that.$swal(
+              "Locked!",
+              res.data.message,
+              "success"
+            ).then(() => {
+              that.$router.go(-1)
+            })
         })
     },
     hapus(id){
@@ -82,6 +105,7 @@ export default {
   },
   created(){
     this.getData()
+    this.getProyek()
   }
 }
 </script>

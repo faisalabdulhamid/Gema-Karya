@@ -32,6 +32,10 @@
             <td>Deskripsi</td>
             <td>{{ proyek.deskripsi }}</td>
           </tr>
+          <tr>
+            <td>Status</td>
+            <td>{{ (!proyek.status)? 'Dikunci': 'Belum Dikunci' }}</td>
+          </tr>
         </tbody>
       </table>
     </div>

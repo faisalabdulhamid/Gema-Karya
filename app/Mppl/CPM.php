@@ -8,51 +8,93 @@ use Carbon\Carbon;
 
 class CPM 
 {
-	protected $proyek_id;
-	protected $kegiatan = [];
-	protected $proyek;
-    protected $nodeDataArray;
-    protected $linkDataArray;
+    protected $proyek_id;
+    protected $node = [];
 
     public function __construct($proyek_id)
     {
     	$this->proyek_id = $proyek_id;
     }
 
-    public function getData()
+    public function filter_data()
     {
-    	$this->proyek = Proyek::find($this->proyek_id);
+        $pekerjaan = ProyekPekerjaan::where('proyek_id', $this->proyek_id)->get();
+        $pekerjaan_fiter = $pekerjaan->map(function($item, $key){
+            return [
+                'key' => $item->id,
+                'id' => $item->id,
+                'kode' => $item->initial,
+                'durasi' => $item->durasi,
+                'pendahulu' => $item->pendahulu->map(function($val, $i){
+                    return $val->id;
+                })->toArray(),
+                'penerus' => $item->penerus->map(function($val, $i){
+                    return $val->id;
+                }),
+            ];
+        });
 
-    	$pekerjaan = ProyekPekerjaan::where('proyek_id', $this->proyek_id)->get();
-    	foreach ($pekerjaan as $key => $value) {
-    		$nodeDataArray['key'] = $value['id'];
-            $nodeDataArray['text'] = $value['initial'];
-            $nodeDataArray['length'] = $value['durasi'];
-
-            // $nodeDataArray['earlyStart'][0] = 0;
-            // $nodeDataArray['lateFinish'] = 0;
-    		
-    		$this->nodeDataArray[] = $nodeDataArray;
-    	}
-
-        foreach ($pekerjaan as $key => $value) {
-            $arr = json_decode($value['pekerjaan_sebelumnya']);
-            foreach ($arr as $val) {
-                $linkDataArray['from'] = $val;
-                $linkDataArray['to'] = $value['id'];
-
-                $this->linkDataArray[] = $linkDataArray;
-            }
-        }
+        return $pekerjaan_fiter;
     }
 
-    public function respon_data()
+    public function set_node()
     {
-    	$this->getData();
+        $data = [];
+        $filter_data = $this->filter_data();
+        foreach ($filter_data as $i => $value) {
+            $row = [];
+            if ($i == 0) {
+                //Initial
+                $_row = [];
+                $_row[] = $value['kode'];
+                $_row[] = $value['durasi'];
+                $_row[] = 0;
+                $_row[] = 1;
+                $row[] = $_row;
+            }else{
 
-    	return [
-            'nodeDataArray' => $this->nodeDataArray,
-            'linkDataArray' => $this->linkDataArray,
-        ];
+                foreach ($value['pendahulu'] as $j => $pendahulu) {
+                    $_row = [];
+                    $_row[] = $value['kode'];
+                    $_row[] = $value['durasi'];
+
+                    $_row[] = $filter_data->firstWhere('id', $pendahulu)['key'];
+                    $_row[] = $value['key'];
+                    $row[] = $_row;
+                }   
+            }
+            $data[] = $row;
+        }
+
+        // $this->node = $data;
+        return collect($data)->collapse();
+    }
+
+    public function result()
+    {
+        // $this->set_node();
+    	$data = $this->set_node();
+
+        $data = $data->transform(function($val, $key)use($data){
+            return [
+                'kode' => $val[0],
+                'durasi' => $val[1],
+                'i' => $val[2],
+                'j' => $val[3],
+                'es' => 0,
+                'ls' => 0,
+            ];
+        });
+        $data = $data->map(function ($item, $key) {
+            $item['durasi'];
+            return $key;
+        });
+        // $group = $data->groupBy(function($item, $key){
+        //     return $item['kode'];
+        // });
+        // return $data->pluck('durasi')->pipe(function($col){
+        //     return $col;
+        // });
+        return $data->splice(0, 2);
     }
 }

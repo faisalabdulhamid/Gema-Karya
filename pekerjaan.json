@@ -1,0 +1,192 @@
+[
+    {
+        "key": 0,
+        "id": 1,
+        "durasi": 2,
+        "pendahulu": [],
+        "penerus": [
+            {
+                "penerus_id": 2
+            }
+        ]
+    },
+    {
+        "key": 1,
+        "id": 2,
+        "durasi": 1,
+        "pendahulu": [
+            {
+                "pendahulu_id": 1
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 3
+            },
+            {
+                "penerus_id": 4
+            }
+        ]
+    },
+    {
+        "key": 2,
+        "id": 3,
+        "durasi": 1,
+        "pendahulu": [
+            {
+                "pendahulu_id": 2
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 5
+            }
+        ]
+    },
+    {
+        "key": 3,
+        "id": 4,
+        "durasi": 2,
+        "pendahulu": [
+            {
+                "pendahulu_id": 2
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 5
+            }
+        ]
+    },
+    {
+        "key": 4,
+        "id": 5,
+        "durasi": 1,
+        "pendahulu": [
+            {
+                "pendahulu_id": 3
+            },
+            {
+                "pendahulu_id": 4
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 6
+            }
+        ]
+    },
+    {
+        "key": 5,
+        "id": 6,
+        "durasi": 4,
+        "pendahulu": [
+            {
+                "pendahulu_id": 5
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 7
+            }
+        ]
+    },
+    {
+        "key": 6,
+        "id": 7,
+        "durasi": 7,
+        "pendahulu": [
+            {
+                "pendahulu_id": 6
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 9
+            },
+            {
+                "penerus_id": 8
+            },
+            {
+                "penerus_id": 10
+            }
+        ]
+    },
+    {
+        "key": 7,
+        "id": 8,
+        "durasi": 10,
+        "pendahulu": [
+            {
+                "pendahulu_id": 7
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 11
+            }
+        ]
+    },
+    {
+        "key": 8,
+        "id": 9,
+        "durasi": 10,
+        "pendahulu": [
+            {
+                "pendahulu_id": 7
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 11
+            }
+        ]
+    },
+    {
+        "key": 9,
+        "id": 10,
+        "durasi": 10,
+        "pendahulu": [
+            {
+                "pendahulu_id": 7
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 11
+            }
+        ]
+    },
+    {
+        "key": 10,
+        "id": 11,
+        "durasi": 10,
+        "pendahulu": [
+            {
+                "pendahulu_id": 8
+            },
+            {
+                "pendahulu_id": 9
+            },
+            {
+                "pendahulu_id": 10
+            }
+        ],
+        "penerus": [
+            {
+                "penerus_id": 12
+            }
+        ]
+    },
+    {
+        "key": 11,
+        "id": 12,
+        "durasi": 1,
+        "pendahulu": [
+            {
+                "pendahulu_id": 11
+            }
+        ],
+        "penerus": []
+    }
+]

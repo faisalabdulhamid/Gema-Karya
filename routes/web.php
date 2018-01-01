@@ -7,13 +7,15 @@ Route::get('/user', function(){
 })->middleware('auth');
 
 Auth::routes();
+
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+
 Route::resource('proyek', 'ProyekController', [
 	'only' => ['index', 'store', 'show', 'update', 'destroy'], 
 	'names'=> ['index' => 'proyek']
 ]);
 Route::resource('resiko', 'ResikoController', [
-	'only' => ['index', 'store', 'show', 'update', 'destroy'], 
+	'except' => ['edit', 'create'],
 	'names'=> ['index' => 'resiko']
 ]);
 Route::resource('pekerjaan', 'PekerjaanController', [
@@ -33,6 +35,7 @@ Route::resource('pegawai', 'PegawaiController', [
 // Route::get('detail/{param}', 'DetailProyekController@index')->name('detail');
 Route::prefix('detail')->name('detail')->group(function(){
     Route::get('/{param}', 'DetailProyekController@index')->name('.index');
+    Route::post('/{param}', 'DetailProyekController@lockProject')->name('.lock');
 
     Route::get('/{proyekId}/pekerjaan', 'DetailProyekController@pekerjaan')->name('.pekerjaan');
     Route::post('/{proyekId}/pekerjaan', 'DetailProyekController@createPekerjaan')->name('.pekerjaan.create');
