@@ -16,11 +16,11 @@ class BuatTableProyekPekerjaanDetail extends Migration
         Schema::create('proyek_pekerjaan_detail', function (Blueprint $table) {
             $table->unsignedInteger('proyek_pekerjaan_id');
             $table->unsignedInteger('proyek_pekerjaan_sebelumnya');
-            $table->foreigen('proyek_pekerjaan_id')
+            $table->foreign('proyek_pekerjaan_id')
                 ->references('id')
                 ->on('proyek_pekerjaan')
                 ->onDelete('cascade');
-            $table->foreigen('proyek_pekerjaan_sebelumnya')
+            $table->foreign('proyek_pekerjaan_sebelumnya')
                 ->references('id')
                 ->on('proyek_pekerjaan')
                 ->onDelete('cascade');

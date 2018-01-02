@@ -17,4 +17,9 @@ class Proyek extends Model
     {
       return route('detail.index', ['param'=>$this->id]);
     }
+
+    public function proyekPekerjaan()
+    {
+    	
+    }
 }

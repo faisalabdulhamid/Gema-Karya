@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\Collection;
 
 class EVM 
 {
-	protected $proyek_id;
-    protected $nodeDataArray = [];
-    protected $linkDataArray = [];
+	public $proyek_id;
+    public $nodeDataArray = [];
+    public $linkDataArray = [];
 
-    protected $kegiatan;
-    protected $proyek;
+    public $kegiatan;
+    public $proyek;
 
-    protected $jalur_kritis = [];
+    public $jalur_kritis = [];
 
     //Bobot
-    protected $bobot_perhari_jalur_kritis = [];
-    protected $bobot_perhari_not_jalur_kritis = [];
-    protected $bobot_perhari_all = [];
-    protected $not_jalur_kritis = [];
+    public $bobot_perhari_jalur_kritis = [];
+    public $bobot_perhari_not_jalur_kritis = [];
+    public $bobot_perhari_all = [];
+    public $not_jalur_kritis = [];
 
-    protected $bobot_per_minggu_with_hari = [];
-    protected $bobot_per_minggu = [];
+    public $bobot_per_minggu_with_hari = [];
+    public $bobot_per_minggu = [];
 
     public function __construct($proyek_id)
     {
@@ -111,7 +111,7 @@ class EVM
                 "harga" => $item->harga,
                 "durasi" => $item->durasi,
                 "bobot" => round(($item->harga/$this->proyek->nilai_kontrak ) * 100, 2),
-                // "nama_pekerjaan" => $item->nama_pekerjaan,
+                "nama_pekerjaan" => $item->nama_pekerjaan,
                 "pendahulu" => $item->pendahulu->pluck('id'),
                 "penerus" => $item->penerus->pluck('id'),
                 "es" => isset($es)? $es: null,
@@ -276,7 +276,8 @@ class EVM
             return [
                 'minggu_ke' => $key+1,
                 'bobot' => $bobot,
-                'budget' => round(($this->proyek->nilai_kontrak * $bobot)),
+                'kontak' => $this->proyek->nilai_kontrak,//round(($this->proyek->nilai_kontrak * $bobot)),
+                'budget' => round($this->proyek->nilai_kontrak * ($bobot/100))//round(($this->proyek->nilai_kontrak * $bobot)),
             ];
         });
     }

@@ -7,9 +7,8 @@ use App\Models\ProyekBahan;
 use App\Models\ProyekPegawai;
 use App\Models\ProyekPekerjaan;
 use App\Models\ProyekResiko;
-use App\Mppl\CPM;
+use App\Models\Evm as ModelEvm;
 use App\Mppl\EVM;
-use App\Mppl\EVMBelum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -96,17 +95,21 @@ class DetailProyekController extends Controller
     public function lockProject($proyekId)
     {
       $proyek = Proyek::find($proyekId);
-      $proyek->status = 0;
-      $proyek->save();
+      $evm = new Evm($proyekId);
+      DB::transaction(function()use($proyek, $proyekId, $evm){
+        $proyek->status = 0;
+        $proyek->save();
+        collect($evm->bobot_per_minggu)->map(function($item, $key) use($proyekId){
+          ModelEvm::create([
+              'minggu_ke' => $item['minggu_ke'], 
+              'bcws_bobot' => round($item['bobot'], 2), 
+              'bcws_budget' => $item['budget'],
+              'proyek_id' => $proyekId
+            ]);
+        });
+      });
       //------------------------------------------
-
-      $cpm = new CPM($proyekId);
-      $pekerjaan_fiter = $cpm->result();
-      
-
-
-
-      return response()->json($pekerjaan_fiter);
+      return response()->json($evm->bobot_per_minggu);
     }
 
     public function resiko($proyekId)
@@ -244,10 +247,82 @@ class DetailProyekController extends Controller
 
     public function evm($proyekId)
     {
-      $evm = new EVM($proyekId);
+      $evm = new Evm($proyekId);
+      $bcwp = ModelEvm::where('proyek_id', $proyekId)->where('status', 1)->get(['minggu_ke', 'bcwp_bobot', 'bcwp_budget']);
+      $acwp = ModelEvm::where('proyek_id', $proyekId)->where('status', 1)->get(['minggu_ke', 'acwp_budget']);
 
-      return response()->json(
-        $evm->result_evm()
-      );
+      $total = 0;
+      $chart_bcws = collect($evm->bobot_per_minggu)->map(function($item, $key)use(&$total){
+        $total = $item['budget']+$total;
+        return $total;
+      });
+
+      $total = 0;
+      $chart_bcwp = $bcwp->map(function($item, $key)use(&$total){
+        $total = $item['bcwp_budget']+$total;
+        return $total;
+      });
+
+      $total = 0;
+      $chart_acwp = $acwp->map(function($item, $key)use(&$total){
+        $total = $item['acwp_budget']+$total;
+        return $total;
+      });
+      $labels = collect($evm->bobot_per_minggu)->pluck('minggu_ke')->map(function($item, $key){
+        return 'Minggu ke -'.$item;
+      });
+      $chart = [
+        'labels' => $labels,
+        'datasets' => [
+          [
+            'label' => 'BCWS',
+            'data' => $chart_bcws,
+            'fill' => false,
+            'borderColor' => '#4286f4'
+          ],
+          [
+            'label' => 'BCWP',
+            'data' => $chart_bcwp,
+            'fill' => false,
+            'borderColor' => '#42f456'
+          ],
+          [
+            'label' => 'ACWP',
+            'data' => $chart_acwp,
+            'fill' => false,
+            'borderColor' => '#d61d58'
+          ],
+        ],
+      ];
+      return response()->json([
+        'bcws' => $evm->bobot_per_minggu,
+        'kegiatan' => $evm->kegiatan,
+        'bcwp' => $bcwp,
+        'acwp' => $acwp,
+        'chart' => $chart//['data' => ]
+      ]);
+    }
+
+    public function PostData(Request $request, $proyekId)
+    {
+      $this->validate($request, [
+        'percent' => 'required|numeric',
+        'budget' => 'required|numeric',
+        'minggu_ke' => 'required',
+      ]);
+      $proyek = Proyek::find($proyekId);
+
+      $data = ModelEvm::where('minggu_ke', $request->minggu_ke)
+        ->where('proyek_id', $proyekId)
+        ->first();
+      $data->bcwp_bobot = $request->percent;
+      $data->bcwp_budget = round($proyek->nilai_kontrak * ($request->percent/100));
+      $data->acwp_budget = $request->budget;
+      $data->status = 1;
+      $data->save();
+
+      return response()->json([
+        'message' => 'Data Berhasil Disimpan',
+      ], 201);
     }
 }

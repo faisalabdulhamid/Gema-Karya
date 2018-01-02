@@ -67,4 +67,5 @@ Route::prefix('detail')->name('detail')->group(function(){
 
     Route::get('/{proyekId}/cpm', 'DetailProyekController@cpm')->name('.cpm');
     Route::get('/{proyekId}/evm', 'DetailProyekController@evm')->name('.cpm');
+    Route::post('/{proyekId}/post-data', 'DetailProyekController@PostData')->name('.post-data');
 });
