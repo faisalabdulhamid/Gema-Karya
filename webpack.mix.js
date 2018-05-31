@@ -12,11 +12,11 @@ let mix = require('laravel-mix');
  */
 
 mix
-  .js('resources/assets/js/proyek/proyek.js', 'public/js')
-  .js('resources/assets/js/detail-proyek/detail-proyek.js', 'public/js')
-  .js('resources/assets/js/resiko/resiko.js', 'public/js')
-  .js('resources/assets/js/bahan-baku/bahan-baku.js', 'public/js')
-  .js('resources/assets/js/pekerjaan/pekerjaan.js', 'public/js')
-  .js('resources/assets/js/pegawai/pegawai.js', 'public/js')
-  // .js('resources/assets/js/app.js', 'public/js')
-  // .sass('resources/assets/sass/app.scss', 'public/css');
+  .js('vuejs/js/proyek/proyek.js', 'public/js')
+  .js('vuejs/js/detail-proyek/detail-proyek.js', 'public/js')
+  .js('vuejs/js/resiko/resiko.js', 'public/js')
+  .js('vuejs/js/bahan-baku/bahan-baku.js', 'public/js')
+  .js('vuejs/js/pekerjaan/pekerjaan.js', 'public/js')
+  .js('vuejs/js/pegawai/pegawai.js', 'public/js')
+  // .js('vuejs/js/app.js', 'public/js')
+  // .sass('vuejs/sass/app.scss', 'public/css');
